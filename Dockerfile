@@ -87,6 +87,7 @@ RUN buildDeps=" \
       && rm -rf imagick-current.tar.gz \
       && mv imagick* imagick \
       \
+      && cd .. \
       && rm -rf configure autom4te.cache \
       && chmod +x ./buildconf \
       && ./buildconf --force \
