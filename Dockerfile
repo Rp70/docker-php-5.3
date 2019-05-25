@@ -59,14 +59,6 @@ RUN buildDeps=" \
                 libssl-dev \
                 libxml2-dev \
                 xz-utils \
-                \
-                ssmtp bsd-mailx \
-                sudo \
-                procps \
-                git \
-                libfreetype6-dev libjpeg62-turbo-dev libpng-dev libwebp-dev libxpm-dev libmcrypt-dev imagemagick libmagickwand-dev \
-                libkrb5-dev libc-client2007e-dev krb5-multidev libpam0g-dev libssl-dev \
-                libpspell-dev librecode-dev libtidy-dev libxslt1-dev libgmp-dev libmemcached-dev zip unzip zlib1g-dev \
       " \
       && set -x \
       && apt-get update && apt-get install -y $buildDeps --no-install-recommends && rm -rf /var/lib/apt/lists/* \
@@ -77,28 +69,6 @@ RUN buildDeps=" \
       && tar -xof php.tar.xz -C /usr/src/php --strip-components=1 \
       && rm php.tar.xz* \
       && cd /usr/src/php \
-      && ls -lah \
-      \
-      && cd ext \
-      && curl -SL http://pecl.php.net/get/APC -o APC-current.tar.gz \
-      && tar -xzf APC-current.tar.gz \
-      && rm -rf APC-current.tar.gz \
-      && mv APC* apc \
-      \
-      && curl -SL http://pecl.php.net/get/memcache -o memcache-current.tar.gz \
-      && tar -xzf memcache-current.tar.gz \
-      && rm -rf memcache-current.tar.gz \
-      && mv memcache* memcache \
-      \
-      && curl -SL http://pecl.php.net/get/imagick -o imagick-current.tar.gz \
-      && tar -xzf imagick-current.tar.gz \
-      && rm -rf imagick-current.tar.gz \
-      && mv imagick* imagick \
-      \
-      && cd .. \
-      && rm -rf configure autom4te.cache \
-      && chmod +x ./buildconf \
-      && ./buildconf --force \
       && ./configure \
             --with-config-file-path="$PHP_INI_DIR" \
             --with-config-file-scan-dir="$PHP_INI_DIR/conf.d" \
@@ -113,28 +83,6 @@ RUN buildDeps=" \
             --with-readline \
             --with-recode \
             --with-zlib \
-            # Additional options
-            \
-            --enable-bcmath \
-            --with-gd \
-            --enable-mbstring \
-            --enable-pcntl \
-            --enable-soap \
-            --enable-sockets \
-            --enable-sqlite-utf8 \
-            --with-jpeg-dir \
-            --with-png-dir \
-            --with-zlib-dir \
-            --with-gettext \
-            --with-mcrypt \
-            --with-mysql \
-            --with-mysqli \
-            --with-pdo-mysql \
-            --with-pdo-sqlite \
-            --with-pear \
-            --enable-memcache \
-            --enable-apc \
-            --disable-phar \
       && make -j"$(nproc)" \
       && make install \
       && { find /usr/local/bin /usr/local/sbin -type f -executable -exec strip --strip-all '{}' + || true; } \
@@ -177,11 +125,7 @@ RUN set -ex \
     echo; \
     echo '[www]'; \
     echo 'listen = 9000'; \
-  } | tee php-fpm.d/zz-docker.conf \
-	# sendmail setup with SSMTP for mail().
-	&& echo "FromLineOverride=YES" >> /etc/ssmtp/ssmtp.conf \
-	&& echo 'sendmail_path = "/usr/sbin/ssmtp -t"' > /usr/local/etc/php/conf.d/mail.ini
-
+  } | tee php-fpm.d/zz-docker.conf
 
 # fix some weird corruption in this file
 RUN sed -i -e "" /usr/local/etc/php-fpm.d/www.conf
