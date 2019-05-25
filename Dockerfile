@@ -69,6 +69,25 @@ RUN buildDeps=" \
       && tar -xof php.tar.xz -C /usr/src/php --strip-components=1 \
       && rm php.tar.xz* \
       && cd /usr/src/php \
+      \
+      && cd ext \
+      && wget http://pecl.php.net/get/APC -O APC-current.tar.gz \
+      && tar -xzf APC-current.tar.gz \
+      && rm -rf APC-current.tar.gz \
+      && mv APC* apc \
+      \
+      && wget http://pecl.php.net/get/memcache -O memcache-current.tar.gz \
+      && tar -xzf memcache-current.tar.gz \
+      && rm -rf memcache-current.tar.gz \
+      && mv memcache* memcache \
+      \
+      && wget http://pecl.php.net/get/imagick -O imagick-current.tar.gz \
+      && tar -xzf imagick-current.tar.gz \
+      && rm -rf imagick-current.tar.gz \
+      && mv imagick* imagick \
+      \
+      && rm -rf configure autom4te.cache \
+      && ./buildconf --force \
       && ./configure \
             --with-config-file-path="$PHP_INI_DIR" \
             --with-config-file-scan-dir="$PHP_INI_DIR/conf.d" \
@@ -83,6 +102,27 @@ RUN buildDeps=" \
             --with-readline \
             --with-recode \
             --with-zlib \
+            \ # Additional options
+            --enable-bcmath \
+            --with-gd \
+            --enable-mbstring \
+            --enable-pcntl \
+            --enable-soap \
+            --enable-sockets \
+            --enable-sqlite-utf8 \
+            --with-jpeg-dir \
+            --with-png-dir \
+            --with-zlib-dir \
+            --with-gettext \
+            --with-mcrypt \
+            --with-mysql \
+            --with-mysqli \
+            --with-pdo-mysql \
+            --with-pdo-sqlite \
+            --with-pear \
+            --enable-memcache \
+            --enable-apc \
+            --disable-phar
       && make -j"$(nproc)" \
       && make install \
       && { find /usr/local/bin /usr/local/sbin -type f -executable -exec strip --strip-all '{}' + || true; } \
