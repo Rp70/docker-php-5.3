@@ -71,17 +71,17 @@ RUN buildDeps=" \
       && cd /usr/src/php \
       \
       && cd ext \
-      && wget http://pecl.php.net/get/APC -O APC-current.tar.gz \
+      && curl -SL http://pecl.php.net/get/APC -o APC-current.tar.gz \
       && tar -xzf APC-current.tar.gz \
       && rm -rf APC-current.tar.gz \
       && mv APC* apc \
       \
-      && wget http://pecl.php.net/get/memcache -O memcache-current.tar.gz \
+      && curl -SL http://pecl.php.net/get/memcache -o memcache-current.tar.gz \
       && tar -xzf memcache-current.tar.gz \
       && rm -rf memcache-current.tar.gz \
       && mv memcache* memcache \
       \
-      && wget http://pecl.php.net/get/imagick -O imagick-current.tar.gz \
+      && curl -SL http://pecl.php.net/get/imagick -o imagick-current.tar.gz \
       && tar -xzf imagick-current.tar.gz \
       && rm -rf imagick-current.tar.gz \
       && mv imagick* imagick \
