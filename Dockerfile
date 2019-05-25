@@ -102,7 +102,8 @@ RUN buildDeps=" \
             --with-readline \
             --with-recode \
             --with-zlib \
-            \ # Additional options
+            # Additional options
+            \
             --enable-bcmath \
             --with-gd \
             --enable-mbstring \
@@ -122,7 +123,7 @@ RUN buildDeps=" \
             --with-pear \
             --enable-memcache \
             --enable-apc \
-            --disable-phar
+            --disable-phar \
       && make -j"$(nproc)" \
       && make install \
       && { find /usr/local/bin /usr/local/sbin -type f -executable -exec strip --strip-all '{}' + || true; } \
