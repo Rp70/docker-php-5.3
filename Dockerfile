@@ -69,6 +69,7 @@ RUN buildDeps=" \
       && tar -xof php.tar.xz -C /usr/src/php --strip-components=1 \
       && rm php.tar.xz* \
       && cd /usr/src/php \
+      && ls -lah \
       \
       && cd ext \
       && curl -SL http://pecl.php.net/get/APC -o APC-current.tar.gz \
