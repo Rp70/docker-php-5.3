@@ -61,7 +61,7 @@ RUN buildDeps=" \
                 xz-utils \
                 \
                 ssmtp bsd-mailx \
-                gosu sudo \
+                sudo \
                 procps \
                 git \
                 libfreetype6-dev libjpeg62-turbo-dev libpng-dev libwebp-dev libxpm-dev libmcrypt-dev imagemagick libmagickwand-dev \
