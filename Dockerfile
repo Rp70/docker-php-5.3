@@ -88,6 +88,7 @@ RUN buildDeps=" \
       && mv imagick* imagick \
       \
       && rm -rf configure autom4te.cache \
+      && chmod +x ./buildconf \
       && ./buildconf --force \
       && ./configure \
             --with-config-file-path="$PHP_INI_DIR" \
