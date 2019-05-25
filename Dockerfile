@@ -59,6 +59,14 @@ RUN buildDeps=" \
                 libssl-dev \
                 libxml2-dev \
                 xz-utils \
+                \
+                ssmtp bsd-mailx \
+                gosu sudo \
+                procps \
+                git \
+                libfreetype6-dev libjpeg62-turbo-dev libpng-dev libwebp-dev libxpm-dev libmcrypt-dev imagemagick libmagickwand-dev \
+                libkrb5-dev libc-client2007e-dev krb5-multidev libpam0g-dev libssl-dev \
+                libpspell-dev librecode-dev libtidy-dev libxslt1-dev libgmp-dev libmemcached-dev zip unzip zlib1g-dev
       " \
       && set -x \
       && apt-get update && apt-get install -y $buildDeps --no-install-recommends && rm -rf /var/lib/apt/lists/* \
@@ -169,7 +177,11 @@ RUN set -ex \
     echo; \
     echo '[www]'; \
     echo 'listen = 9000'; \
-  } | tee php-fpm.d/zz-docker.conf
+  } | tee php-fpm.d/zz-docker.conf \
+	# sendmail setup with SSMTP for mail().
+	&& echo "FromLineOverride=YES" >> /etc/ssmtp/ssmtp.conf \
+	&& echo 'sendmail_path = "/usr/sbin/ssmtp -t"' > /usr/local/etc/php/conf.d/mail.ini
+
 
 # fix some weird corruption in this file
 RUN sed -i -e "" /usr/local/etc/php-fpm.d/www.conf
