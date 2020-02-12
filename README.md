@@ -1,3 +1,7 @@
+# For Your Information
+
+This repo was cloned from https://github.com/helderco/docker-php-5.3 and used as a base image for PHP-FPM 5.3 custom build at https://github.com/Rp70/docker-php.
+
 # PHP 5.3 FPM
 
 PHP 5.3 [reached EOL](http://php.net/eol.php) on 14 Aug 2014 and thus, official docker support was [dropped](https://github.com/docker-library/php/pull/20). I still needed to run 5.3 with FPM so I built this image based on the latest official builds of PHP.
@@ -18,7 +22,7 @@ For PHP projects run through the command line interface (CLI), you can do the fo
 
 ### Create a `Dockerfile` in your PHP project
 
-    FROM helder/php-5.3
+    FROM rp70/php-fpm-5.3
     COPY . /usr/src/myapp
     WORKDIR /usr/src/myapp
     CMD [ "php", "./your-script.php" ]
@@ -32,13 +36,13 @@ Then, run the commands to build and run the Docker image:
 
 For many simple, single file projects, you may find it inconvenient to write a complete `Dockerfile`. In such cases, you can run a PHP script by using the PHP Docker image directly:
 
-    docker run -it --rm --name my-running-script -v "$PWD":/usr/src/myapp -w /usr/src/myapp helder/php-5.3 php your-script.php
+    docker run -it --rm --name my-running-script -v "$PWD":/usr/src/myapp -w /usr/src/myapp rp70/php-fpm-5.3 php your-script.php
 
 ### Without a `Dockerfile`
 
 If you don't want to include a `Dockerfile` in your project, it is sufficient to do the following:
 
-    docker run -it --rm --name my-php-fpm-app -v "$PWD":/var/www/html helder/php-5.3
+    docker run -it --rm --name my-php-fpm-app -v "$PWD":/var/www/html rp70/php-fpm-5.3
 
 # License
 
